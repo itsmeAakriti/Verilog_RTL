@@ -1,0 +1,38 @@
+
+module RIPPLEADDER(
+input [3:0]in1,in2,
+input cin,
+output [3:0] out,
+output cout
+    );
+    wire w1,w2,w3;
+    fulladder_struct f1(.a(in1[0]),.b(in2[0]),.cin(cin),.sum(out[0]),.cout(w1));
+    fulladder_struct f2(.a(in1[1]),.b(in2[1]),.cin(w1),.sum(out[1]),.cout(w2));
+    fulladder_struct f3(.a(in1[2]),.b(in2[2]),.cin(w2),.sum(out[2]),.cout(w3));
+    fulladder_struct f4(.a(in1[3]),.b(in2[3]),.cin(w3),.sum(out[3]),.cout(cout));
+endmodule
+
+
+
+module rippleaddertb();
+    reg [3:0] in1, in2;
+    reg cin;
+    wire [3:0] out;
+    wire cout;
+    integer i, j;
+    
+    // Instantiate the RIPPLEADDER module
+    RIPPLEADDER r1(.in1(in1), .in2(in2), .cin(cin), .out(out), .cout(cout));
+
+    // Test case generation
+    initial begin
+        cin = 0; // Initialize carry-in to 0
+        for (i = 0; i < 16; i = i + 1) begin
+            for (j = 0; j < 16; j = j + 1) begin
+                in1 = i; // Assign value to in1
+                in2 = j; // Assign value to in2
+                #10; // Wait for 10 time units
+            end
+        end
+    end
+endmodule
