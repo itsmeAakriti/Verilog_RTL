@@ -1,0 +1,38 @@
+USING STRUCTURAL MODELING
+module half_Adder(
+input a,b,
+output sum,cout  );
+assign sum=a^b;
+assign cout=a&b;
+endmodule
+
+module fulladder_struct(
+input a,b,cin,
+output sum,cout
+    );
+    wire w1,w2,w3;
+    half_Adder h1(.a(a),.b(b),.sum(w1),.cout(w2));
+    half_Adder h2(.a(w1),.b(cin),.sum(sum),.cout(w3));
+    assign cout=w3 | w2;
+endmodule
+
+module full_Adder_structtb(
+
+    );
+    reg a,b,cin;
+    wire sum,cout;
+    fulladder_struct dut(a,b,cin,sum,cout);
+    integer i;
+    initial begin
+    for(i=0;i<8;i=i+1)
+    begin
+    {a,b,cin}=i;
+    #10;
+    end
+    end
+    initial begin
+    #90 $finish;
+    end
+    
+endmodule
+
