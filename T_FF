@@ -1,0 +1,116 @@
+module flipflops(
+    input clock,
+    input T,
+    input reset,
+    output reg q
+  
+);
+reg q1;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            q <= 0;
+        end else begin
+             if(T==1)
+                q <= ~q;
+              else
+               q<=q;
+        end
+        
+    end
+endmodule
+
+_-------------------------------------------------------------------------------------------------
+module flipflops(
+    input clock,
+    input T,
+    input reset,
+    output reg q
+  
+);
+reg q1;
+    always @(posedge clock ) begin
+        if (reset) begin
+            q <= 0;
+        end else begin
+             if(T==1)
+                q <= ~q;
+              else
+               q<=q;
+        end
+        
+    end
+endmodule
+--------------------------------------------------------------------------------------------------------
+
+module flipflops(
+    input clock,
+    input T,
+    output reg q=0
+  
+);
+
+    always @(posedge clock ) begin
+
+             if(T==1)
+                q <= ~q;
+              else
+               q<=q;
+        end
+        
+
+
+endmodule
+--------------------------------------------------------------------------------------------------------
+
+module flipflops(
+    input clock,
+    input T,
+    output reg q=0
+  
+);
+
+    always @(posedge clock ) begin
+
+             if(T==1)
+                q <= ~q;
+              else
+               q<=q;
+        end
+        
+
+
+endmodule
+
+--------------------------------------------------------------------------------------------------------
+module flipfloptb(
+
+    );
+    reg clock,T,reset;
+    wire q;
+    flipflops sr(clock,T,reset,q);
+    initial begin
+    clock=0;
+    T=0;
+    reset=1;
+    end
+    always
+    begin
+    #2 clock=~clock;
+    end
+    initial begin
+    #10
+    T=1;
+    reset=0;
+    #10
+    T=0;;
+    reset=0;
+    #3
+    reset=1;
+    T=1;
+    #10
+    reset=0;
+   T=0;
+    #10
+    $finish;
+    end
+    endmodule
