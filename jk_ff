@@ -1,0 +1,76 @@
+
+module flipflops(
+input clock,j,k,reset,
+output reg q,qbar
+    );
+    always@(posedge clock )
+    begin
+    if(!reset)
+    begin
+  case({j,k})
+  2'b10:
+    begin
+    q<=1;
+    qbar<=0;
+    end
+   2'b01:
+    begin
+    q<=0;
+    qbar<=1;
+    end
+    2'b11:
+      begin
+      q<=qbar;
+      qbar<=q;
+      end
+    2'b00:
+    begin
+    q<=q;
+    qbar<=qbar;
+    end
+    
+    endcase
+    end
+    else
+    begin
+     q<=q;
+     qbar<=qbar;
+     end
+    end
+endmodule
+
+--------------------------------------------------------
+module flipfloptb(
+
+    );
+    reg clock,j,k,reset;
+    wire q,qbar;
+    flipflops sr(clock,j,k,reset,q,qbar);
+    initial begin
+    clock=0;
+    j=1;
+    k=0;
+    reset=1;
+    end
+    always
+    begin
+    #2 clock=~clock;
+    end
+    initial begin
+    #10
+    j=0;
+    k=0;
+    reset=0;
+    #10
+    j=0;
+    k=1;
+    reset=0;
+    #10
+    j=1;
+    k=1;
+    reset=0;
+    #10
+    $finish;
+    end
+    
+endmodule
