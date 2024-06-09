@@ -1,0 +1,138 @@
+
+module flipflops(
+input clock,s,r,
+output reg q,qbar
+    );
+    always@(posedge clock)
+    begin
+    if(s==1 && r==0)
+    begin
+    q<=1;
+    qbar<=0;
+    end
+    else if(r==1 && s==0)
+    begin
+    q<=0;
+    qbar<=1;
+    end
+      else if(r==1 && s==1)
+      begin
+      q<=1'bx;
+      qbar<=1'bx;
+      end
+    else
+    begin
+    q<=q;
+    qbar<=qbar;
+    end
+    
+    end
+endmodule
+
+-----------------------------------------------------------------------------------------
+
+
+module flipflops(
+input clock,s,r,reset,
+output reg q,qbar
+    );
+    always@(posedge clock or !reset)
+    begin
+  case({s,r})
+  2'b10:
+    begin
+    q<=1;
+    qbar<=0;
+    end
+   2'b01:
+    begin
+    q<=0;
+    qbar<=1;
+    end
+    2'b11:
+      begin
+      q<=1'bx;
+      qbar<=1'bx;
+      end
+    2'b00:
+    begin
+    q<=q;
+    qbar<=qbar;
+    end
+    
+    endcase
+    end
+endmodule
+_-------------------------------------------------------------------------------------------------------------------------------
+module flipflops(
+input clock,s,r,reset,
+output reg q,qbar
+    );
+    always@(posedge clock )
+    begin
+    if(!reset)
+    begin
+  case({s,r})
+  2'b10:
+    begin
+    q<=1;
+    qbar<=0;
+    end
+   2'b01:
+    begin
+    q<=0;
+    qbar<=1;
+    end
+    2'b11:
+      begin
+      q<=1'bx;
+      qbar<=1'bx;
+      end
+    2'b00:
+    begin
+    q<=q;
+    qbar<=qbar;
+    end
+    
+    endcase
+    end
+    else
+    begin
+     q<=q;
+     qbar<=qbar;
+     end
+    end
+endmodule
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+module flipfloptb(
+
+    );
+    reg clock,s,r;
+    wire q,qbar;
+    flipflops sr(clock,s,r,q,qbar);
+    initial begin
+    clock=0;
+    s=1;
+    r=0;
+    end
+    always
+    begin
+    #2 clock=~clock;
+    end
+    initial begin
+    #10
+    s=0;
+    r=0;
+    #10
+    s=0;
+    r=1;
+    #10
+    s=1;
+    r=1;
+    #10
+    $finish;
+    end
+    
